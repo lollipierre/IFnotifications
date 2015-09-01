@@ -30,7 +30,7 @@ processFlights = function(flights, internalparams) {
 			//getFlightDetails(flight.FlightID, internalparams);
 			//Send an SMS text message
 			client.sendMessage({
-				to:'+33625555292', // Any number Twilio can deliver to
+				to:'+xxx', // Any number Twilio can deliver to
 				from: '+19175515432', // A number you bought from Twilio and can use for outbound communication
 				body: st // body of the SMS message
 			}, function(err, responseData) { //this function is executed when a response is received from Twilio
