@@ -18,7 +18,7 @@ exports.showKey = function() {
 	return apiKey;
 }
 
-exports.callAPI = function(endpoint, params, callback, err) {
+exports.callAPI = function(endpoint, params, internalparams, callback, err) {
 	if (apiKey == undefined) {
 		err("You need to init the api key first!");
 		return;
@@ -34,6 +34,11 @@ exports.callAPI = function(endpoint, params, callback, err) {
 		return;
 	}
 	
+	if (internalparams == undefined) {
+		err("Missing internal params!");
+		return;
+	}
+	
 	http.get(apiBaseUrl + apiEndPoints[endpoint] + "?apikey=" + apiKey + params, function(res) {
   		var body = '';
         res.on('data', function(d) {
@@ -41,7 +46,7 @@ exports.callAPI = function(endpoint, params, callback, err) {
         });
         res.on('end', function() {
             var parsed = JSON.parse(body);
-			callback(parsed);
+			callback(parsed, internalparams);
         });
 	}).on('error', function(e) {
   		console.log("Got error: " + e.message);
