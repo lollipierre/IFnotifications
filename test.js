@@ -1,6 +1,7 @@
+var user = "xxx";
+var client = require('twilio')('xxx', 'xxx');
+var sendToNumber = "+xxx";
 var IFapi = require('./IFapi.js');
-var user = "xxxx";
-var client = require('twilio')('xxxx', 'xxxx');
 var sessions;
 
 logError = function (err) {
@@ -24,13 +25,14 @@ processFlights = function(flights, internalparams) {
 	for (var flight of flights) {
 		if (flight.DisplayName == user) {
 			var st = flight.DisplayName + " (" + flight.CallSign + ") is flying a " + flight.AircraftName;
-			var st = st + " at http://maps.google.com/maps?q=" + flight.Latitude + "," + flight.Longitude;
-			var st = st + " on " + internalparams["ServerName"];
+			//st += st + " at http://maps.google.com/maps?q=" + flight.Latitude + "," + flight.Longitude;
+			st += " at http://www.liveflightapp.com/?f=" + flight.FlightID;
+			st += " on " + internalparams["ServerName"];
 			console.log(st);
 			//getFlightDetails(flight.FlightID, internalparams);
 			//Send an SMS text message
 			client.sendMessage({
-				to:'+xxx', // Any number Twilio can deliver to
+				to: sendToNumber, // Any number Twilio can deliver to
 				from: '+19175515432', // A number you bought from Twilio and can use for outbound communication
 				body: st // body of the SMS message
 			}, function(err, responseData) { //this function is executed when a response is received from Twilio
@@ -42,6 +44,7 @@ processFlights = function(flights, internalparams) {
 					console.log(responseData.body); // outputs "word to your mother."
 				}
 			});
+			return;
 		}
 	}
 	return;
